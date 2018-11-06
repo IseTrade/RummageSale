@@ -1,0 +1,55 @@
+﻿@model RummageSale.Models.Sale
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Sale</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RescheduleStartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RescheduleStartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RescheduleEndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RescheduleEndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CatId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CatId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

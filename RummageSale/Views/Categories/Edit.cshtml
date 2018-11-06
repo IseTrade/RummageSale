@@ -1,0 +1,55 @@
+﻿@model RummageSale.Models.Category
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Electronics" />
+            <div class="form-group">
+                <label asp-for="Furniture" class="control-label"></label>
+                <input asp-for="Furniture" class="form-control" />
+                <span asp-validation-for="Furniture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Toys" class="control-label"></label>
+                <input asp-for="Toys" class="form-control" />
+                <span asp-validation-for="Toys" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Clothings" class="control-label"></label>
+                <input asp-for="Clothings" class="form-control" />
+                <span asp-validation-for="Clothings" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalCare" class="control-label"></label>
+                <input asp-for="PersonalCare" class="form-control" />
+                <span asp-validation-for="PersonalCare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Media" class="control-label"></label>
+                <input asp-for="Media" class="form-control" />
+                <span asp-validation-for="Media" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

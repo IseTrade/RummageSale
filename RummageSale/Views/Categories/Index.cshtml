@@ -1,0 +1,60 @@
+﻿@model IEnumerable<RummageSale.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Furniture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Toys)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clothings)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalCare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Media)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Furniture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Toys)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Clothings)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalCare)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Media)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Electronics">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Electronics">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Electronics">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
