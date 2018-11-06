@@ -22,7 +22,7 @@ namespace RummageSale.Models
         public DateTime? RescheduleEndDate { get; set; }
         [ForeignKey("CatId")]
         public string CatId { get; set; }
-        public Category category { get; set; }
+        public Category Category { get; set; }
 
     }
 }
