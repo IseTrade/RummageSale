@@ -32,33 +32,29 @@ namespace RummageSale.Controllers
         }
 
         // GET: RummageUsers/Details/5
-        public async Task<IActionResult> Details(int id)
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var rummageUser = await _context.RummageUser
-                .Include(r => r.ApplicationUser)
+            //var rummageUser = await _context.RummageUser
+            //    .Include(r => r.ApplicationUser)
 
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (rummageUser == null)
-            {
-                return NotFound();
-            }
+            //    .FirstOrDefaultAsync(m => m.UserId == id);
+            //if (rummageUser == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(rummageUser);
-
-
-            //var userId = _userManager.GetUserId(HttpContext.User);
-
-            //var currentUser = _context.RummageUser.Where(r => r.UserId.ToString() == userId).SingleOrDefault();
-            //return View(currentUser);
-
-            //private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+            //return View(rummageUser);
 
 
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            var currentUser = _context.RummageUser.Where(r => r.ApplicationUserId  ==  userId).SingleOrDefault();
+            return View(currentUser);
 
 
         }
@@ -82,6 +78,7 @@ namespace RummageSale.Controllers
         {
             if (ModelState.IsValid)
             {
+                rummageUser.ApplicationUserId= _userManager.GetUserId(HttpContext.User);
                 _context.Add(rummageUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
