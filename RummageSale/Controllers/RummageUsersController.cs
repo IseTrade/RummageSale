@@ -7,15 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RummageSale.Data;
 using RummageSale.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace RummageSale.Controllers
 {
     public class RummageUsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public RummageUsersController(ApplicationDbContext context)
+        public RummageUsersController(UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -28,7 +32,7 @@ namespace RummageSale.Controllers
         }
 
         // GET: RummageUsers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
@@ -37,7 +41,7 @@ namespace RummageSale.Controllers
 
             var rummageUser = await _context.RummageUser
                 .Include(r => r.ApplicationUser)
-               
+
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (rummageUser == null)
             {
@@ -45,13 +49,27 @@ namespace RummageSale.Controllers
             }
 
             return View(rummageUser);
+
+
+            //var userId = _userManager.GetUserId(HttpContext.User);
+
+            //var currentUser = _context.RummageUser.Where(r => r.UserId.ToString() == userId).SingleOrDefault();
+            //return View(currentUser);
+
+            //private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+
+
+
         }
 
-        // GET: RummageUsers/Create
+        // GET: RummageUsers/Create//
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id");
             ViewData["SaleId"] = new SelectList(_context.Set<Sale>(), "Id", "Id");
+
+
             return View();
         }
 
