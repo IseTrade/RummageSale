@@ -10,6 +10,7 @@ namespace RummageSale.Models
     public class Category
     {
         [Key]
+        public int Id { get; set; }
         public bool? Electronics { get; set; }
         public bool? Furniture { get; set; }
         public bool? Toys { get; set; }

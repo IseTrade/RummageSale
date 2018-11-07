@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RummageSale.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,10 +49,12 @@ namespace RummageSale.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Category_1",
                 columns: table => new
                 {
-                    Electronics = table.Column<bool>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Electronics = table.Column<bool>(nullable: true),
                     Furniture = table.Column<bool>(nullable: true),
                     Toys = table.Column<bool>(nullable: true),
                     Clothings = table.Column<bool>(nullable: true),
@@ -61,7 +63,7 @@ namespace RummageSale.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Electronics);
+                    table.PrimaryKey("PK_Category_1", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,31 +173,6 @@ namespace RummageSale.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sale",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    StartDate = table.Column<DateTime>(nullable: true),
-                    EndDate = table.Column<DateTime>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    RescheduleStartDate = table.Column<DateTime>(nullable: true),
-                    RescheduleEndDate = table.Column<DateTime>(nullable: true),
-                    CatId = table.Column<string>(nullable: true),
-                    categoryElectronics = table.Column<bool>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sale", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sale_Category_categoryElectronics",
-                        column: x => x.categoryElectronics,
-                        principalTable: "Category",
-                        principalColumn: "Electronics",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RummageUser",
                 columns: table => new
                 {
@@ -206,8 +183,7 @@ namespace RummageSale.Migrations
                     City = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
                     Zipcode = table.Column<int>(nullable: false),
-                    Phone = table.Column<int>(nullable: false),
-                    SaleId = table.Column<int>(nullable: false),
+                    Phone = table.Column<string>(nullable: true),
                     ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -219,11 +195,37 @@ namespace RummageSale.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sale_1",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    StartDate = table.Column<DateTime>(nullable: true),
+                    EndDate = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    RescheduleStartDate = table.Column<DateTime>(nullable: true),
+                    RescheduleEndDate = table.Column<DateTime>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
+                    CatId = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sale_1", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RummageUser_Sale_SaleId",
-                        column: x => x.SaleId,
-                        principalTable: "Sale",
+                        name: "FK_Sale_1_Category_1_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category_1",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Sale_1_RummageUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "RummageUser",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -272,14 +274,14 @@ namespace RummageSale.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RummageUser_SaleId",
-                table: "RummageUser",
-                column: "SaleId");
+                name: "IX_Sale_1_CategoryId",
+                table: "Sale_1",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sale_categoryElectronics",
-                table: "Sale",
-                column: "categoryElectronics");
+                name: "IX_Sale_1_UserId",
+                table: "Sale_1",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -300,19 +302,19 @@ namespace RummageSale.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "RummageUser");
+                name: "Sale_1");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Category_1");
+
+            migrationBuilder.DropTable(
+                name: "RummageUser");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Sale");
-
-            migrationBuilder.DropTable(
-                name: "Category");
         }
     }
 }

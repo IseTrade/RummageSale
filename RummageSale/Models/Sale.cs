@@ -20,6 +20,9 @@ namespace RummageSale.Models
         public DateTime? RescheduleStartDate { get; set; }
         [Display(Name = "Reschedule End Date")]
         public DateTime? RescheduleEndDate { get; set; }
+        [ForeignKey("RummageUser")]
+        public int UserId { get; set; }
+        public RummageUser RummageUser { get; set; }
         [ForeignKey("CatId")]
         public string CatId { get; set; }
         public Category Category { get; set; }

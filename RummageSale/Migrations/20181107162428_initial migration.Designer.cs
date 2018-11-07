@@ -10,8 +10,8 @@ using RummageSale.Data;
 namespace RummageSale.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181106211529_Initial")]
-    partial class Initial
+    [Migration("20181107162428_initial migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -189,9 +189,13 @@ namespace RummageSale.Migrations
 
             modelBuilder.Entity("RummageSale.Models.Category", b =>
                 {
-                    b.Property<bool?>("Electronics");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool?>("Clothings");
+
+                    b.Property<bool?>("Electronics");
 
                     b.Property<bool?>("Furniture");
 
@@ -201,9 +205,9 @@ namespace RummageSale.Migrations
 
                     b.Property<bool?>("Toys");
 
-                    b.HasKey("Electronics");
+                    b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category_1");
                 });
 
             modelBuilder.Entity("RummageSale.Models.RummageUser", b =>
@@ -220,9 +224,7 @@ namespace RummageSale.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("Phone");
-
-                    b.Property<int>("SaleId");
+                    b.Property<string>("Phone");
 
                     b.Property<string>("State");
 
@@ -231,8 +233,6 @@ namespace RummageSale.Migrations
                     b.HasKey("UserId");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("SaleId");
 
                     b.ToTable("RummageUser");
                 });
@@ -245,6 +245,8 @@ namespace RummageSale.Migrations
 
                     b.Property<string>("CatId");
 
+                    b.Property<int?>("CategoryId");
+
                     b.Property<string>("Description");
 
                     b.Property<DateTime?>("EndDate");
@@ -255,13 +257,15 @@ namespace RummageSale.Migrations
 
                     b.Property<DateTime?>("StartDate");
 
-                    b.Property<bool?>("categoryElectronics");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("categoryElectronics");
+                    b.HasIndex("CategoryId");
 
-                    b.ToTable("Sale");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Sale_1");
                 });
 
             modelBuilder.Entity("RummageSale.Models.ApplicationUser", b =>
@@ -324,18 +328,18 @@ namespace RummageSale.Migrations
                     b.HasOne("RummageSale.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("RummageSale.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("RummageSale.Models.Sale", b =>
                 {
-                    b.HasOne("RummageSale.Models.Category", "category")
+                    b.HasOne("RummageSale.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("categoryElectronics");
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("RummageSale.Models.RummageUser", "RummageUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

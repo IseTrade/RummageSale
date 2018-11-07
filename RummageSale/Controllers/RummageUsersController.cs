@@ -23,7 +23,7 @@ namespace RummageSale.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.RummageUser.Include(r => r.ApplicationUser).Include(r => r.Sale);
+            var applicationDbContext = _context.RummageUser.Include(r => r.ApplicationUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,7 +37,7 @@ namespace RummageSale.Controllers
 
             var rummageUser = await _context.RummageUser
                 .Include(r => r.ApplicationUser)
-                .Include(r => r.Sale)
+               
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (rummageUser == null)
             {
@@ -69,7 +69,7 @@ namespace RummageSale.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", rummageUser.ApplicationUserId);
-            ViewData["SaleId"] = new SelectList(_context.Set<Sale>(), "Id", "Id", rummageUser.SaleId);
+           
             return View(rummageUser);
         }
 
@@ -87,7 +87,7 @@ namespace RummageSale.Controllers
                 return NotFound();
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", rummageUser.ApplicationUserId);
-            ViewData["SaleId"] = new SelectList(_context.Set<Sale>(), "Id", "Id", rummageUser.SaleId);
+           
             return View(rummageUser);
         }
 
@@ -124,7 +124,7 @@ namespace RummageSale.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", rummageUser.ApplicationUserId);
-            ViewData["SaleId"] = new SelectList(_context.Set<Sale>(), "Id", "Id", rummageUser.SaleId);
+          
             return View(rummageUser);
         }
 
@@ -138,7 +138,7 @@ namespace RummageSale.Controllers
 
             var rummageUser = await _context.RummageUser
                 .Include(r => r.ApplicationUser)
-                .Include(r => r.Sale)
+               
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (rummageUser == null)
             {

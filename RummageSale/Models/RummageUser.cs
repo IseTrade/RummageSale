@@ -18,14 +18,10 @@ namespace RummageSale.Models
         public string City { get; set; }
         public string State { get; set; }
         public int Zipcode { get; set; }
-        public int Phone { get; set; }
-        [ForeignKey("Sale")]
-        public int SaleId { get; set; }
-        public Sale Sale { get; set; }
+        public string Phone { get; set; }
+        
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-
-
     }
 }
