@@ -20,6 +20,7 @@ namespace RummageSale.Controllers
         }
 
         // GET: RummageUsers
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.RummageUser.Include(r => r.ApplicationUser).Include(r => r.Sale);
