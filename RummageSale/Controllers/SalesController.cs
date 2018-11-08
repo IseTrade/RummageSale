@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,8 +17,9 @@ namespace RummageSale.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public SalesController(ApplicationDbContext context)
+        public SalesController(UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -58,7 +60,8 @@ namespace RummageSale.Controllers
             if (ModelState.IsValid)
             {
                 // var saleID = sale.UserId.ToString(); 
-              var selectUser  = _context.RummageUser.Where(r => r.ApplicationUserId == _userManager.GetUserId(HttpContext.User)).SingleOrDefault();
+                var user =  _userManager.GetUserId(HttpContext.User);
+              var selectUser  = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
                 sale.UserId = selectUser.UserId;
                 _context.Sale.Add(sale);
                 _context.SaveChanges();
@@ -67,9 +70,23 @@ namespace RummageSale.Controllers
             return View(sale);
         }
 
+        //filter by zipcode
         public IActionResult Index2()
         {
+            var saleId = _userManager.GetUserId(HttpContext.User);
+            var sale = _context.Sale.Where(s => (s.UserId).ToString() == saleId).SingleOrDefault();
+            var zipCode = _context.Sale.Where(z => z.Zipcode == sale.Zipcode).ToList();
+            return View(zipCode);
+        }
 
+        //filter by cat
+        public IActionResult Filterbycat()
+        {
+            var catId = _userManager.GetUserId(HttpContext.User);
+            var cat = _context.Category.Where(c => (c.Id).ToString() == catId).SingleOrDefault();
+            var category = _context.Category.Where(c => c.Media == cat.Media && c.PersonalCare == cat.PersonalCare &&
+            c.Clothings == cat.Clothings && c.Electronics == cat.Electronics && c.Furniture == cat.Furniture && c.Toys == cat.Toys).ToList();
+            return View(category);
         }
 
 
