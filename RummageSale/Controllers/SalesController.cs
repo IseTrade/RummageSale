@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace RummageSale.Controllers
     public class SalesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public SalesController(ApplicationDbContext context)
         {
@@ -49,21 +51,41 @@ namespace RummageSale.Controllers
             return View();
         }
 
-        // POST: Sales/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,Description,RescheduleStartDate,RescheduleEndDate,CatId")] Sale sale)
+        public IActionResult Create([Bind("Id,StartDate,EndDate,Description,RescheduleStartDate,RescheduleEndDate,CatId")] Sale sale)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sale);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // var saleID = sale.UserId.ToString(); 
+              var selectUser  = _context.RummageUser.Where(r => r.ApplicationUserId == _userManager.GetUserId(HttpContext.User)).SingleOrDefault();
+                sale.UserId = selectUser.UserId;
+                _context.Sale.Add(sale);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
             return View(sale);
         }
+
+        public IActionResult Index2()
+        {
+
+        }
+
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,Description,RescheduleStartDate,RescheduleEndDate,CatId")] Sale sale)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(sale);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(sale);
+        //}
 
         // GET: Sales/Edit/5
         public async Task<IActionResult> Edit(int? id)

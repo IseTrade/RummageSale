@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RummageSale.Data;
 
 namespace RummageSale.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181108153641_moved fks")]
+    partial class movedfks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,19 +249,9 @@ namespace RummageSale.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address");
-
-                    b.Property<string>("City");
-
                     b.Property<string>("Description");
 
-                    b.Property<string>("Email");
-
                     b.Property<DateTime?>("EndDate");
-
-                    b.Property<string>("Phone");
-
-                    b.Property<string>("PriceRange");
 
                     b.Property<DateTime?>("RescheduleEndDate");
 
@@ -267,11 +259,7 @@ namespace RummageSale.Migrations
 
                     b.Property<DateTime?>("StartDate");
 
-                    b.Property<string>("State");
-
                     b.Property<int>("UserId");
-
-                    b.Property<int>("Zipcode");
 
                     b.HasKey("Id");
 

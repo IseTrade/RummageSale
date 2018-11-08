@@ -18,6 +18,9 @@ namespace RummageSale.Models
         [Display(Name = "Personal Care")]
         public bool? PersonalCare { get; set; }
         public bool? Media { get; set; }
+        [ForeignKey("SaleId")]
+        public string SaleId { get; set; }
+        public Sale Sale { get; set; }
 
 
     }

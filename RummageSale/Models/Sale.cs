@@ -11,21 +11,32 @@ namespace RummageSale.Models
     {
         [Key]
         public int Id { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public int Zipcode { get; set; }
+        public string Phone { get; set; }
         [Display(Name = "Start Date")]
         public DateTime? StartDate { get; set; }
         [Display(Name = "End Date")]
         public DateTime? EndDate { get; set; }
-        public string Description { get; set; }
         [Display(Name = "Reschedule Start Date")]
         public DateTime? RescheduleStartDate { get; set; }
         [Display(Name = "Reschedule End Date")]
         public DateTime? RescheduleEndDate { get; set; }
+        public string Description { get; set; }
+        [Display(Name = "Price Range")]
+        public string PriceRange { get; set; }   
+ 
+      
+
+        
+
         [ForeignKey("RummageUser")]
         public int UserId { get; set; }
         public RummageUser RummageUser { get; set; }
-        [ForeignKey("CatId")]
-        public string CatId { get; set; }
-        public Category Category { get; set; }
+       
 
     }
 }
