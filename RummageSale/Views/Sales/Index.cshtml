@@ -9,6 +9,7 @@
 
 <p>
     <a asp-action="Create">Create New</a>
+    <a asp-action="Index2">Filter Your Search!!</a>
 </p>
 <table class="table">
     <thead>
@@ -57,22 +58,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayFor(model => item.Email)
             </td>
             <td>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayFor(model => item.Address)
             </td>
             <td>
-                @Html.DisplayNameFor(model => model.City)
+                @Html.DisplayFor(model => item.City)
             </td>
             <td>
-                @Html.DisplayNameFor(model => model.State)
+                @Html.DisplayFor(model => item.State)
             </td>
             <td>
-                @Html.DisplayNameFor(model => model.Zipcode)
+                @Html.DisplayFor(model => item.Zipcode)
             </td>
             <td>
-                @Html.DisplayNameFor(model => model.Phone)
+                @Html.DisplayFor(model => item.Phone)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)

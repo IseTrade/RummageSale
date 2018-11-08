@@ -55,7 +55,7 @@ namespace RummageSale.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,StartDate,EndDate,Description,RescheduleStartDate,RescheduleEndDate,CatId")] Sale sale)
+        public IActionResult Create([Bind("Id,Email,Address,City,State,Zipcode,Phone,StartDate,EndDate,RescheduleStartDate,RescheduleEndDate,Description,PriceRange,CatId")] Sale sale)
         {
             if (ModelState.IsValid)
             {
@@ -73,10 +73,16 @@ namespace RummageSale.Controllers
         //filter by zipcode
         public IActionResult Index2()
         {
-            var saleId = _userManager.GetUserId(HttpContext.User);
-            var sale = _context.Sale.Where(s => (s.UserId).ToString() == saleId).SingleOrDefault();
-            var zipCode = _context.Sale.Where(z => z.Zipcode == sale.Zipcode).ToList();
-            return View(zipCode);
+
+            var user = _userManager.GetUserId(HttpContext.User);
+            var selectUser = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
+            var sale = _context.Sale.Where(s => s.Zipcode == selectUser.Zipcode).ToList();
+            //var userZipCode = _context.RummageUser.Where(z => z.Zipcode == sale.Zipcode).ToList();
+            return View(sale);
+
+            //rename zipCode = rummageuserzipcode
+            //switch sale and rummage user
+            
         }
 
         //filter by cat
