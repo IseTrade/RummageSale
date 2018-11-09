@@ -42,8 +42,7 @@ namespace RummageSale.Controllers
                 return NotFound();
             }
 
-            var sale = await _context.Sale_1
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var sale = await _context.Sale_1.FirstOrDefaultAsync(m => m.Id == id);
             if (sale == null)
             {
                 return NotFound();
@@ -64,9 +63,9 @@ namespace RummageSale.Controllers
         {
             if (ModelState.IsValid)
             {
-                // var saleID = sale.UserId.ToString(); 
+                // var saleID = sale.UserId.ToString();
                 var user =  _userManager.GetUserId(HttpContext.User);
-              var selectUser  = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
+                var selectUser  = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
                 sale.UserId = selectUser.UserId;
                 _context.Sale.Add(sale);
                 _context.SaveChanges();
@@ -228,7 +227,7 @@ namespace RummageSale.Controllers
                 _context.SaveChangesAsync();
 
                 ViewBag.ProfileImage = sale.Picture;
-                ViewData["FileLocation"] = "/" + Path.GetFileName(pic.FileName);
+                ViewData["FileLocation"] = "/images/" + Path.GetFileName(pic.FileName);
             }
 
             return View();

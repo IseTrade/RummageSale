@@ -29,10 +29,12 @@ namespace RummageSale.Models
         [Display(Name = "Price Range")]
         public string PriceRange { get; set; }   
         public string Picture { get; set; }
- 
-      
+        public bool? Electronics { get; set; }
+        public bool? Furniture { get; set; }
+        public bool? Toys { get; set; }
+        public bool? Clothings { get; set; }
 
-        
+
 
         [ForeignKey("RummageUser")]
         public int UserId { get; set; }
