@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +19,7 @@ namespace RummageSale.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHostingEnvironment he;
 
         public SalesController(UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
@@ -193,6 +197,40 @@ namespace RummageSale.Controllers
         private bool SaleExists(int id)
         {
             return _context.Sale_1.Any(e => e.Id == id);
+        }
+        [HttpGet]
+        public IActionResult UploadPicture()
+        {
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult UploadPicture(IFormFile pic, int? id)
+        {
+            if (pic == null)
+            {
+                return View();
+            }
+
+            if (pic != null)
+            {
+                var fullPath = Path.Combine(he.WebRootPath, Path.GetFileName(pic.FileName));
+                var fileName = pic.FileName;
+                pic.CopyTo(new FileStream(fullPath, FileMode.Create));
+
+                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var sale = _context.Sale.Where(m => m.UserId.ToString() == userid).FirstOrDefault();
+
+                sale.Picture = fileName;
+                _context.Update(sale);
+                _context.SaveChangesAsync();
+
+                ViewBag.ProfileImage = sale.Picture;
+                ViewData["FileLocation"] = "/" + Path.GetFileName(pic.FileName);
+            }
+
+            return View();
         }
     }
 }

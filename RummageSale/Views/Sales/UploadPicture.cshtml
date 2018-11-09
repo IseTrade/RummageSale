@@ -1,0 +1,12 @@
+﻿@{
+}
+<h2>UploadImage</h2>
+@{
+
+    <form method="post" enctype="multipart/form-data"  asp-controller="Sales" asp-action="UploadPicture" >
+        <input type="file" name="pic" /><br />
+        <input type="submit" value="Go" />
+    </form>
+}
+<label>@ViewData["fname"]</label></br>
+<img src="@ViewData["fileLocation"]" />

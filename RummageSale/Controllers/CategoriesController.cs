@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace RummageSale.Controllers
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CategoriesController(ApplicationDbContext context)
+        public CategoriesController(UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Categories
@@ -49,20 +52,22 @@ namespace RummageSale.Controllers
             return View();
         }
 
-        // POST: Categories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Electronics,Furniture,Toys,Clothings,PersonalCare,Media")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // var saleID = sale.UserId.ToString(); 
+                //var user = _userManager.GetUserId(HttpContext.User);
+                //var selectUser = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
+                //category.SaleId = Sale.Id;
+                //_context.Sale.Add(ca);
+                //_context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View(category);
+           return View();
         }
 
         // GET: Categories/Edit/5

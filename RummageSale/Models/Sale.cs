@@ -28,6 +28,7 @@ namespace RummageSale.Models
         public string Description { get; set; }
         [Display(Name = "Price Range")]
         public string PriceRange { get; set; }   
+        public string Picture { get; set; }
  
       
 

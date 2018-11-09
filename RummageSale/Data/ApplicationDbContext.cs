@@ -18,6 +18,7 @@ namespace RummageSale.Data
         public DbSet<Category> Category { get; set; }
         public DbSet<RummageSale.Models.Sale> Sale_1 { get; set; }
         public DbSet<RummageSale.Models.Category> Category_1 { get; set; }
+      
 
     }
 }

@@ -81,7 +81,7 @@ namespace RummageSale.Controllers
                 rummageUser.ApplicationUserId= _userManager.GetUserId(HttpContext.User);
                 _context.Add(rummageUser);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details");
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", rummageUser.ApplicationUserId);
            
