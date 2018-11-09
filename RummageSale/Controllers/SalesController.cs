@@ -21,9 +21,10 @@ namespace RummageSale.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHostingEnvironment he;
 
-        public SalesController(UserManager<IdentityUser> userManager, ApplicationDbContext context)
+        public SalesController(UserManager<IdentityUser> userManager, ApplicationDbContext context, IHostingEnvironment e)
         {
             _userManager = userManager;
+            he = e;
             _context = context;
         }
 
@@ -205,7 +206,7 @@ namespace RummageSale.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("UploadPictures")]
         public IActionResult UploadPicture(IFormFile pic, int? id)
         {
             if (pic == null)

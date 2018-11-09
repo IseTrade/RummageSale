@@ -59,15 +59,15 @@ namespace RummageSale.Controllers
         {
             if (ModelState.IsValid)
             {
-                // var saleID = sale.UserId.ToString(); 
-                //var user = _userManager.GetUserId(HttpContext.User);
-                //var selectUser = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
-                //category.SaleId = Sale.Id;
-                //_context.Sale.Add(ca);
-                //_context.SaveChanges();
+               // var saleID = sale.UserId.ToString();
+                var user = _userManager.GetUserId(HttpContext.User);
+                var selectUser = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
+                category.SaleId = selectUser.UserId.ToString();
+                _context.Category.Add(category);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-           return View();
+           return View(category);
         }
 
         // GET: Categories/Edit/5
