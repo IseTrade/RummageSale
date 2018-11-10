@@ -64,8 +64,8 @@ namespace RummageSale.Controllers
             if (ModelState.IsValid)
             {
                 // var saleID = sale.UserId.ToString();
-                var user =  _userManager.GetUserId(HttpContext.User);
-                var selectUser  = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
+                var user = _userManager.GetUserId(HttpContext.User);
+                var selectUser = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
                 sale.UserId = selectUser.UserId;
                 _context.Sale.Add(sale);
                 _context.SaveChanges();
@@ -86,7 +86,7 @@ namespace RummageSale.Controllers
 
             //rename zipCode = rummageuserzipcode
             //switch sale and rummage user
-            
+
         }
 
         //filter by cat
@@ -208,26 +208,32 @@ namespace RummageSale.Controllers
         [HttpPost("UploadPictures")]
         public IActionResult UploadPicture(IFormFile pic, int? id)
         {
+            //if the picture does not exist move on
             if (pic == null)
             {
                 return View();
             }
-
-            if (pic != null)
+            else
             {
+                //get the full path to the file
                 var fullPath = Path.Combine(he.WebRootPath, Path.GetFileName(pic.FileName));
+
+                //get the filename with extension
                 var fileName = pic.FileName;
                 pic.CopyTo(new FileStream(fullPath, FileMode.Create));
 
-                string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var sale = _context.Sale.Where(m => m.UserId.ToString() == userid).FirstOrDefault();
+                //string userid = User.FindFirstValue(ClaimTypes.NameIdentifier); original
+                string userId = _userManager.GetUserId(HttpContext.User);
 
-                sale.Picture = fileName;
+                var sale = _context.Sale.Where(m => m.RummageUser.ApplicationUserId == userId).FirstOrDefault();
+                sale.Picture = fileName; //store in database Picture field
+
                 _context.Update(sale);
-                _context.SaveChangesAsync();
+                _context.SaveChangesAsync(); //save to database
 
-                ViewBag.ProfileImage = sale.Picture;
-                ViewData["FileLocation"] = "/images/" + Path.GetFileName(pic.FileName);
+                //Configure information for the view page
+                ViewData["FileName"] = fileName.Replace(".jpg", "").Replace(".png", ""); //take filename and rip out extension
+                ViewData["FileLocation"] = "/" + Path.GetFileName(pic.FileName);//wwwroot = http://....:####/
             }
 
             return View();
