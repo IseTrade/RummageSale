@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RummageSale.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class _ : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,24 +46,6 @@ namespace RummageSale.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Category_1",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Electronics = table.Column<bool>(nullable: true),
-                    Furniture = table.Column<bool>(nullable: true),
-                    Toys = table.Column<bool>(nullable: true),
-                    Clothings = table.Column<bool>(nullable: true),
-                    PersonalCare = table.Column<bool>(nullable: true),
-                    Media = table.Column<bool>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Category_1", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,35 +180,65 @@ namespace RummageSale.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sale_1",
+                name: "Sale",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Email = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    Zipcode = table.Column<int>(nullable: false),
+                    Phone = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: true),
                     EndDate = table.Column<DateTime>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
                     RescheduleStartDate = table.Column<DateTime>(nullable: true),
                     RescheduleEndDate = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<int>(nullable: false),
-                    CatId = table.Column<string>(nullable: true),
-                    CategoryId = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    PriceRange = table.Column<string>(nullable: true),
+                    Picture = table.Column<string>(nullable: true),
+                    Electronics = table.Column<bool>(nullable: true),
+                    Furniture = table.Column<bool>(nullable: true),
+                    Toys = table.Column<bool>(nullable: true),
+                    Clothings = table.Column<bool>(nullable: true),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sale_1", x => x.Id);
+                    table.PrimaryKey("PK_Sale", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sale_1_Category_1_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category_1",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Sale_1_RummageUser_UserId",
+                        name: "FK_Sale_RummageUser_UserId",
                         column: x => x.UserId,
                         principalTable: "RummageUser",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Electronics = table.Column<bool>(nullable: true),
+                    Furniture = table.Column<bool>(nullable: true),
+                    Toys = table.Column<bool>(nullable: true),
+                    Clothings = table.Column<bool>(nullable: true),
+                    PersonalCare = table.Column<bool>(nullable: true),
+                    Media = table.Column<bool>(nullable: true),
+                    SaleId = table.Column<string>(nullable: true),
+                    SaleId1 = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Category_Sale_SaleId1",
+                        column: x => x.SaleId1,
+                        principalTable: "Sale",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -269,18 +281,18 @@ namespace RummageSale.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Category_SaleId1",
+                table: "Category",
+                column: "SaleId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RummageUser_ApplicationUserId",
                 table: "RummageUser",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sale_1_CategoryId",
-                table: "Sale_1",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sale_1_UserId",
-                table: "Sale_1",
+                name: "IX_Sale_UserId",
+                table: "Sale",
                 column: "UserId");
         }
 
@@ -302,13 +314,13 @@ namespace RummageSale.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Sale_1");
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Category_1");
+                name: "Sale");
 
             migrationBuilder.DropTable(
                 name: "RummageUser");

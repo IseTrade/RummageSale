@@ -10,14 +10,14 @@ using RummageSale.Data;
 namespace RummageSale.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181108214233_deleted check box model")]
-    partial class deletedcheckboxmodel
+    [Migration("20181109221220_...")]
+    partial class _
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -253,13 +253,21 @@ namespace RummageSale.Migrations
 
                     b.Property<string>("City");
 
+                    b.Property<bool?>("Clothings");
+
                     b.Property<string>("Description");
+
+                    b.Property<bool?>("Electronics");
 
                     b.Property<string>("Email");
 
                     b.Property<DateTime?>("EndDate");
 
+                    b.Property<bool?>("Furniture");
+
                     b.Property<string>("Phone");
+
+                    b.Property<string>("Picture");
 
                     b.Property<string>("PriceRange");
 
@@ -270,6 +278,8 @@ namespace RummageSale.Migrations
                     b.Property<DateTime?>("StartDate");
 
                     b.Property<string>("State");
+
+                    b.Property<bool?>("Toys");
 
                     b.Property<int>("UserId");
 
