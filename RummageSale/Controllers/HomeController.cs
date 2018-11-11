@@ -21,18 +21,22 @@ namespace RummageSale.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Rummage Sale Home Page /index.cshtml
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             ViewBag.Address = _context.Sale.Select(s => s.Address).First();
-
             ViewBag.Zipcode = _context.Sale.Select(s => s.Zipcode).First();
+
+            //Test - Failed
+            //Attempted to obtain all address/zip code from Sales table to populate for Google Maps API
+            //ViewBag.SalesAddressList = _context.Sale.Select(s => s.Address).ToArray();
+            //ViewBag.SalesZipCodeList = _context.Sale.Select(s => s.Zipcode).ToArray();
             return View();
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
