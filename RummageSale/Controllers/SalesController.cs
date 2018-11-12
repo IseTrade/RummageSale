@@ -59,7 +59,7 @@ namespace RummageSale.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Email,Address,City,State,Zipcode,Phone,StartDate,EndDate,RescheduleStartDate,RescheduleEndDate,Description,PriceRange,CatId")] Sale sale)
+        public IActionResult Create([Bind("Id,Email,Address,City,State,Zipcode,Phone,StartDate,EndDate,RescheduleStartDate,RescheduleEndDate,Description,PriceRange,CatId,Electronics,Furniture,Toys,Clothings")] Sale sale)
         {
             if (ModelState.IsValid)
             {
@@ -135,7 +135,7 @@ namespace RummageSale.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,Description,RescheduleStartDate,RescheduleEndDate,CatId")] Sale sale)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,Description,RescheduleStartDate,RescheduleEndDate,Electronics,Furniture,Toys,Clothings,CatId")] Sale sale)
         {
             if (id != sale.Id)
             {
@@ -205,7 +205,7 @@ namespace RummageSale.Controllers
 
         }
 
-        [HttpPost("UploadPictures")]
+        [HttpPost]
         public IActionResult UploadPicture(IFormFile pic, int? id)
         {
             //if the picture does not exist move on
