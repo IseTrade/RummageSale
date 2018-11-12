@@ -27,8 +27,9 @@ namespace RummageSale.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            ViewBag.Address = _context.Sale.Select(s => s.Address).First();
-            ViewBag.Zipcode = _context.Sale.Select(s => s.Zipcode).First();
+            ViewBag.Address = _context.Sale.Select(s => s.Address).ToList();
+            ViewBag.Zipcode = _context.Sale.Select(s => s.Zipcode).ToList();
+
 
             //Test - Failed
             //Attempted to obtain all address/zip code from Sales table to populate for Google Maps API

@@ -80,7 +80,7 @@ namespace RummageSale.Controllers
 
             var user = _userManager.GetUserId(HttpContext.User);
             var selectUser = _context.RummageUser.Where(r => r.ApplicationUserId == user).SingleOrDefault();
-            var sale = _context.Sale.Where(s => s.Zipcode == selectUser.Zipcode).ToList();
+            List<Sale> sale = _context.Sale.Where(s => s.Zipcode == selectUser.Zipcode).ToList();
             //var userZipCode = _context.RummageUser.Where(z => z.Zipcode == sale.Zipcode).ToList();
             return View(sale);
 
