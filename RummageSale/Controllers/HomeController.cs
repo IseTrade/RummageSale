@@ -27,8 +27,8 @@ namespace RummageSale.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            ViewBag.Address = _context.Sale.Select(s => s.Address).ToList();
-            ViewBag.Zipcode = _context.Sale.Select(s => s.Zipcode).ToList();
+            ViewBag.Address = _context.Sale.Select(s => s.Address).FirstOrDefault();
+            ViewBag.Zipcode = _context.Sale.Select(s => s.Zipcode).FirstOrDefault();
 
 
             //Test - Failed
